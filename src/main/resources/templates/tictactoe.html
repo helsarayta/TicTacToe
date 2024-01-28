@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TicTacToe</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div style="display: flex; flex-direction: column; align-items: center">
+    <h2>TIC TAC TOE</h2>
+    <p th:if="${winner != null}" th:text="'Winner: ' + ${game.getCurrentPlayer()}" style="font-size: 50px"></p>
+    <p th:if="${draw}" th:text="'Its a draw'" style="font-size: 50px"></p>
+    <p th:unless="${winner != null || draw == true}" th:style="${game.currentPlayer} == 'X' ? 'color:blue;font-size:20px' : 'color:red;font-size:20px'" th:text="'Current Player: ' + ${game.currentPlayer}"></p>
+
+    <form th:if="${winner != null || draw == true}" th:action="@{/tictactoe/restart}" method="post">
+        <div style="display: flex; flex-direction: column; gap: 5px">
+            <div style="display: flex; flex-direction: row">
+                <label style="font-size: 20px" for="size">Select Board Size:</label>
+                <select style="width: 60px;font-size: 20px" name="size" id="size">
+                    <option value="3">3x3</option>
+                    <option value="5">5x5</option>
+                    <option value="9">9x9</option>
+                    <option value="11">11x11</option>
+                </select>
+            </div>
+            <button th:class="btn" th:if="${winner != null || draw == true}" type="submit">Restart Game</button>
+        </div>
+    </form>
+
+
+    <table style="border-collapse: separate; margin-top: 20px;width: 50%">
+        <tr th:each="row, rowStat : ${game.board}">
+            <td th:each="cell, colStat : ${row}">
+                <div style="display: flex;">
+                    <a th:href="@{'/tictactoe/move?row=' + ${rowStat.index} + '&col=' + ${colStat.index}}">
+                        <div th:if="${winner == null || draw == false}" >
+                            <span th:if="${cell} == 'X'" th:style="${cell} == 'X' ? 'color:blue;font-size:5rem' : 'color:red; font-size:5rem'"  th:text="${cell}"></span>
+                            <span th:if="${cell} == 'O'" th:style="${cell} == 'X' ? 'color:blue;font-size:5rem' : 'color:red; font-size:5rem'"  th:text="${cell}"></span>
+                            <span th:if="${cell} == '-'" style="color: transparent;font-size: 5rem"  th:text="${cell}"></span>
+                        </div>
+
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
