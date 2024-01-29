@@ -34,7 +34,7 @@ public class TictactoeController {
         return "tictactoe";
     }
 
-    @RequestMapping(value = "tictactoe/move", method = {RequestMethod.GET, RequestMethod.POST})
+    @GetMapping("tictactoe/move")
     public String makeMove(int row, int col) {
         if(service != null) {
             service.makeMove(row, col);
@@ -43,7 +43,7 @@ public class TictactoeController {
         return "redirect:/tictactoe";
     }
 
-    @RequestMapping(value = "/tictactoe/restart", method = {RequestMethod.GET, RequestMethod.POST})
+    @PostMapping("/tictactoe/restart")
     public String restartGame(@RequestParam(name = "size", defaultValue = "3")int size) {
         service = new TictactoeService(size);
         return "redirect:/tictactoe";
