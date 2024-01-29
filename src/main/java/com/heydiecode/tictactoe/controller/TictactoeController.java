@@ -14,9 +14,12 @@ public class TictactoeController {
     private TictactoeService service;
 
     @GetMapping("/tictactoe")
-    public String getGame(@RequestParam(name = "size", defaultValue = "3")int size, Model model) {
-
+    public String getGame(@RequestParam(name = "size", defaultValue = "0")int size, Model model) {
     if(service == null) {
+       model.addAttribute("size",size);
+       if(size == 0) {
+           return "tictactoe";
+       }
        service = new TictactoeService(size);
     }
 
